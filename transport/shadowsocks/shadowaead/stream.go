@@ -7,7 +7,7 @@ import (
 	"io"
 	"net"
 
-	"github.com/xjasonlyu/tun2socks/v2/buffer"
+	"vpn/buffer"
 )
 
 const (

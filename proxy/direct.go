@@ -4,9 +4,9 @@ import (
 	"context"
 	"net"
 
-	"github.com/xjasonlyu/tun2socks/v2/dialer"
-	M "github.com/xjasonlyu/tun2socks/v2/metadata"
-	"github.com/xjasonlyu/tun2socks/v2/proxy/proto"
+	"vpn/dialer"
+	M "vpn/metadata"
+	"vpn/proxy/proto"
 )
 
 var _ Proxy = (*Direct)(nil)

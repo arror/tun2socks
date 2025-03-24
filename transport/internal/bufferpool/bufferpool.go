@@ -3,7 +3,7 @@ package bufferpool
 import (
 	"bytes"
 
-	"github.com/xjasonlyu/tun2socks/v2/internal/pool"
+	"vpn/internal/pool"
 )
 
 const _size = 1024 // by default, create 1 KiB buffers

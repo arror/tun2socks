@@ -7,11 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/xjasonlyu/tun2socks/v2/buffer"
-	"github.com/xjasonlyu/tun2socks/v2/core/adapter"
-	"github.com/xjasonlyu/tun2socks/v2/log"
-	M "github.com/xjasonlyu/tun2socks/v2/metadata"
-	"github.com/xjasonlyu/tun2socks/v2/tunnel/statistic"
+	"vpn/buffer"
+	"vpn/core/adapter"
+	M "vpn/metadata"
+	"vpn/tunnel/statistic"
 )
 
 func (t *Tunnel) handleTCPConn(originConn adapter.TCPConn) {
@@ -31,7 +30,7 @@ func (t *Tunnel) handleTCPConn(originConn adapter.TCPConn) {
 
 	remoteConn, err := t.Dialer().DialContext(ctx, metadata)
 	if err != nil {
-		log.Warnf("[TCP] dial %s: %v", metadata.DestinationAddress(), err)
+		// log.Warnf("[TCP] dial %s: %v", metadata.DestinationAddress(), err)
 		return
 	}
 	metadata.MidIP, metadata.MidPort = parseNetAddr(remoteConn.LocalAddr())
@@ -39,7 +38,7 @@ func (t *Tunnel) handleTCPConn(originConn adapter.TCPConn) {
 	remoteConn = statistic.NewTCPTracker(remoteConn, metadata, t.manager)
 	defer remoteConn.Close()
 
-	log.Infof("[TCP] %s <-> %s", metadata.SourceAddress(), metadata.DestinationAddress())
+	// log.Infof("[TCP] %s <-> %s", metadata.SourceAddress(), metadata.DestinationAddress())
 	pipe(originConn, remoteConn)
 }
 
@@ -58,7 +57,7 @@ func unidirectionalStream(dst, src net.Conn, dir string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	buf := buffer.Get(buffer.RelayBufferSize)
 	if _, err := io.CopyBuffer(dst, src, buf); err != nil {
-		log.Debugf("[TCP] copy data for %s: %v", dir, err)
+		// log.Debugf("[TCP] copy data for %s: %v", dir, err)
 	}
 	buffer.Put(buf)
 	// Do the upload/download side TCP half-close.

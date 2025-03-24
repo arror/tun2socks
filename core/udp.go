@@ -7,8 +7,8 @@ import (
 	"gvisor.dev/gvisor/pkg/tcpip/transport/udp"
 	"gvisor.dev/gvisor/pkg/waiter"
 
-	"github.com/xjasonlyu/tun2socks/v2/core/adapter"
-	"github.com/xjasonlyu/tun2socks/v2/core/option"
+	"vpn/core/adapter"
+	"vpn/core/option"
 )
 
 func withUDPHandler(handle func(adapter.UDPConn)) option.Option {

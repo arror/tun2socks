@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/xjasonlyu/tun2socks/v2/dialer"
-	M "github.com/xjasonlyu/tun2socks/v2/metadata"
-	"github.com/xjasonlyu/tun2socks/v2/proxy/proto"
-	"github.com/xjasonlyu/tun2socks/v2/transport/shadowsocks/core"
-	obfs "github.com/xjasonlyu/tun2socks/v2/transport/simple-obfs"
-	"github.com/xjasonlyu/tun2socks/v2/transport/socks5"
+	"vpn/dialer"
+	M "vpn/metadata"
+	"vpn/proxy/proto"
+	"vpn/transport/shadowsocks/core"
+	obfs "vpn/transport/simple-obfs"
+	"vpn/transport/socks5"
 )
 
 var _ Proxy = (*Shadowsocks)(nil)
