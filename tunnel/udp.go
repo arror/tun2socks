@@ -8,6 +8,7 @@ import (
 
 	"vpn/buffer"
 	"vpn/core/adapter"
+	"vpn/log"
 
 	// "vpn/log"
 	M "vpn/metadata"
@@ -29,7 +30,7 @@ func (t *Tunnel) handleUDPConn(uc adapter.UDPConn) {
 
 	pc, err := t.Dialer().DialUDP(metadata)
 	if err != nil {
-		// log.Warnf("[UDP] dial %s: %v", metadata.DestinationAddress(), err)
+		log.Warnf("[UDP] dial %s: %v", metadata.DestinationAddress(), err)
 		return
 	}
 	metadata.MidIP, metadata.MidPort = parseNetAddr(pc.LocalAddr())
@@ -45,7 +46,7 @@ func (t *Tunnel) handleUDPConn(uc adapter.UDPConn) {
 	}
 	pc = newSymmetricNATPacketConn(pc, metadata)
 
-	// log.Infof("[UDP] %s <-> %s", metadata.SourceAddress(), metadata.DestinationAddress())
+	log.Infof("[UDP] %s <-> %s", metadata.SourceAddress(), metadata.DestinationAddress())
 	pipePacket(uc, pc, remote, t.udpTimeout.Load())
 }
 
@@ -62,7 +63,7 @@ func pipePacket(origin, remote net.PacketConn, to net.Addr, timeout time.Duratio
 func unidirectionalPacketStream(dst, src net.PacketConn, to net.Addr, dir string, wg *sync.WaitGroup, timeout time.Duration) {
 	defer wg.Done()
 	if err := copyPacketData(dst, src, to, timeout); err != nil {
-		// log.Debugf("[UDP] copy data for %s: %v", dir, err)
+		log.Debugf("[UDP] copy data for %s: %v", dir, err)
 	}
 }
 
@@ -107,7 +108,7 @@ func (pc *symmetricNATPacketConn) ReadFrom(p []byte) (int, net.Addr, error) {
 		n, from, err := pc.PacketConn.ReadFrom(p)
 
 		if from != nil && from.String() != pc.dst {
-			// log.Warnf("[UDP] symmetric NAT %s->%s: drop packet from %s", pc.src, pc.dst, from)
+			log.Warnf("[UDP] symmetric NAT %s->%s: drop packet from %s", pc.src, pc.dst, from)
 			continue
 		}
 
